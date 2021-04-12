@@ -80,7 +80,6 @@ end
 # puts lisp_env[:*].call 2, 3, 4
 # puts lisp_env[:/].call 9, 5, 1
 # puts lisp_env[:>].call 1, 2
-
 # p lisp_env[:car].call [1, 2, 3]
 # p lisp_env[:cdr].call [1, 2, 3]
 
@@ -106,4 +105,4 @@ def lisp_eval(elem, env = generate_env)
 end
 
 
-p lisp_eval(parse '(/ (+ 1 (* 2 3) 1 1 (+ 1 (- 7 2) 1)) 4)')
+# p lisp_eval(parse '(/ (+ 1 (* 2 3) 1 1 (+ 1 (- 7 2) 1)) 4)')
