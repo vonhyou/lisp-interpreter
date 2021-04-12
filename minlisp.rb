@@ -59,19 +59,21 @@ end
 
 def generate_env
   lisp_env = {
-    '+': ->(arr) { arr.sum }, # args.inject(0, :+)
+    '+': ->(args) { args.sum }, # args.inject(0, :+)
     '-': ->(*args) { eval args.join('-') },
     '*': ->(*args) { eval args.join('*') },
     '/': ->(*args) { eval args.join('/') },
-    '>': ->(x, y) { x > y },
-    '<': ->(x, y) { x < y },
-    '=': ->(x, y) { x == y },
-    '>=': ->(x, y) { x >= y },
-    '<=': ->(x, y) { x <= y },
+    '>': ->(args) { args[0] > args[1] },
+    '<': ->(args) { args[0] < args[1] },
+    '=': ->(args) { args[0] == args[1] },
+    '>=': ->(args) { args[0] >= args[1] },
+    '<=': ->(args) { args[0] <= args[1] },
     'min': ->(*args) { args.min },
     'max': ->(*args) { args.max },
     'car': ->(arr) { arr[0] },
-    'cdr': ->(arr) { arr[1..-1] }
+    'cdr': ->(arr) { arr[1..-1] },
+    'print': ->(arg) { p arg },
+    'begin': ->(*args) { true }
   }
 end
 
@@ -83,8 +85,6 @@ end
 # p lisp_env[:car].call [1, 2, 3]
 # p lisp_env[:cdr].call [1, 2, 3]
 
-def do_sth ; end
-
 ##### Lisp Eval
 
 def lisp_eval(elem, env = generate_env)
@@ -93,9 +93,12 @@ def lisp_eval(elem, env = generate_env)
   elsif elem.instance_of?(Integer) || elem.instance_of?(Float)
     elem
   elsif elem[0] == :def
-    do_sth
+    _, sym, exp = elem
+    env[sym] = lisp_eval(exp, env)
   elsif elem[0] == :if
-    do_sth
+    _, cod, if_true, if_false = elem
+    exp = lisp_eval(cod, env) ? if_true : if_false
+    lisp_eval exp, env
   else
     args = []
     elem[1..-1].each { |arg| args << lisp_eval(arg, env) }
@@ -106,3 +109,4 @@ end
 
 
 # p lisp_eval(parse '(/ (+ 1 (* 2 3) 1 1 (+ 1 (- 7 2) 1)) 4)')
+lisp_eval(parse '(begin (def var1 7) (print (if (> var1 1) (+ 1 30) (- 10 2))))')
