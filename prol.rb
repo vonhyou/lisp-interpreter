@@ -55,16 +55,16 @@ module Lisp
         scope.merge op => ->(*args) { args.inject(&op) }
       end
     end
-    # @global_env.merge {
-    #   'min' : ->(*args) { args.min },
-    #     'max' : ->(*args) { args.max },
-    #     'car' : ->(arr) { arr[0] },
-    #     'cdr' : ->(arr) { arr[1..-1] },
-    #     'cons' : ->(arr) { arr },
-    #     'quote' : ->(arr) { arr },
-    #     'print' : ->(arg) { p arg },
-    #     'begin' : ->(*_args) { true }
-    # }
+    mtds = { 'min': ->(arr) { arr.min },
+             'max': ->(arr) { arr.max },
+             'car': ->(arr) { arr[0] },
+             'cdr': ->(arr) { arr[1..-1] },
+             'cons': ->(arr) { arr },
+             'quote': ->(*args) { args },
+             'print': ->(arg) { p arg },
+             'begin': ->(*_args) { true }
+    }
+    @global_env.merge mtds
   end
 
   ##### Lisp Eval
