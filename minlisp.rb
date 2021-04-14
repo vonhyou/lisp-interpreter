@@ -115,7 +115,7 @@ end
 
 ##### REPL
 
-def repl(prompt='minlisp>> ')
+def repl(prompt='minlisp ƛ>> ')
   loop do
     print prompt
     val = lisp_eval(parse(gets.chomp))
