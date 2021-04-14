@@ -87,6 +87,12 @@ def lisp_eval(elem, env = $global_env)
   elsif elem[0] == :lambda
     _, params, body = elem
     ->(*args) { lisp_eval body, env.merge(Hash[params.zip(args)]) }
+  elsif elem[0] == :and
+    lisp_eval(elem[1], env) && lisp_eval(elem[2], env)
+  elsif elem[0] == :or
+    lisp_eval(elem[1], env) || lisp_eval(elem[2], env)
+  elsif elem[0] == :not
+    !lisp_eval(elem[1], env)
   else
     args = []
     elem[1..-1].each { |arg| args << lisp_eval(arg, env) }
