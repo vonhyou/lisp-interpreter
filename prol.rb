@@ -20,15 +20,20 @@ module Lisp
     program.gsub('(', ' ( ').gsub(')', ' ) ').split
   end
 
-  def self.read_tokens(tokens, lst = [])
+  def self.make_list(tokens)
+    lst = []
+    lst << read_tokens(tokens) while tokens[0] != ')'
+    tokens.shift
+    lst
+  end
+
+  def self.read_tokens(tokens)
     # read expressions from token
     raise SyntaxError, 'Unexpected EOF' if tokens.empty?
 
     case token = tokens.shift
     when '('
-      lst << read_tokens(tokens) while tokens[0] != ')'
-      tokens.shift
-      lst
+      make_list tokens
     when ')'
       raise SyntaxError, "Unexpected ')'"
     else
