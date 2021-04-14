@@ -52,8 +52,6 @@ def atom(token)
   token.to_sym
 end
 
-# p parse '(def 1 2 (c 3.3 (r f r) e))'
-
 ##### Environments
 
 def generate_env
@@ -78,14 +76,6 @@ def generate_env
   }
 end
 
-# puts lisp_env[:+].call 1, 2, 3
-# puts lisp_env[:-].call 1, 2, 3
-# puts lisp_env[:*].call 2, 3, 4
-# puts lisp_env[:/].call 9, 5, 1
-# puts lisp_env[:>].call 1, 2
-# p lisp_env[:car].call [1, 2, 3]
-# p lisp_env[:cdr].call [1, 2, 3]
-
 ##### Lisp Eval
 
 $global_env = generate_env
@@ -109,10 +99,6 @@ def lisp_eval(elem, env = $global_env)
   end
 end
 
-
-# p lisp_eval(parse '(/ (+ 1 (* 2 3) 1 1 (+ 1 (- 7 2) 1)) 4)')
-# lisp_eval(parse '(begin (def var1 7) (print (if (> var1 1) (+ 1 30) (- 10 2))))')
-
 ##### REPL
 
 def repl(prompt='minlisp ƛ>> ')
@@ -128,5 +114,4 @@ def print_value(value)
   puts ";Value: #{value.to_s}"
 end
 
-repl()
-# p lisp_eval(parse('(if (> 7 8) (+ 3 11) (/ 7 3))'))
+# repl()
