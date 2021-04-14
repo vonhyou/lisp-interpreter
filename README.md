@@ -4,7 +4,7 @@
 
 It's a simple minimal lisp interpreter written by ruby.
 
-![](./screenshot/demo.png)
+![](./screenshot/demo.svg)
 
 ### Feature
 
