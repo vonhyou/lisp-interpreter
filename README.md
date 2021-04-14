@@ -2,7 +2,7 @@
 
 **PRO**cessor of **L**ist for Mathematical Calculation
 
-It's a simple minimal lisp interpreter written by ruby.
+It's a simple minimal lisp interpreter written in ruby.
 
 ![](./screenshot/demo.svg)
 

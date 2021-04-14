@@ -50,7 +50,7 @@ module Lisp
 
   def self.make_global
     @global_env ||= begin
-      ops = %i[== != < <= > >= + - * /]
+      ops = %i[== != < <= > >= + - * / % & | ^ ～]
       ops.inject({}) do |scope, op|
         scope.merge op => ->(*args) { args.inject(&op) }
       end
