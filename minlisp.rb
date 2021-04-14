@@ -72,6 +72,7 @@ def generate_env
     'car': ->(arr) { arr[0] },
     'cdr': ->(arr) { arr[1..-1] },
     'cons': ->(arr) { arr },
+    'quote': ->(arr) { arr },
     'print': ->(arg) { p arg },
     'begin': ->(*_args) { true }
   }
@@ -89,7 +90,7 @@ end
 
 $global_env = generate_env
 def lisp_eval(elem, env = $global_env)
-  if elem.instance_of?(Symbol)
+  if elem.instance_of? Symbol
     env[elem]
   elsif elem.instance_of?(Integer) || elem.instance_of?(Float)
     elem
@@ -128,4 +129,4 @@ def print_value(value)
 end
 
 repl()
-# lisp_eval(parse('(begin (def var1 7) (if (> var1 8) (+ 3 11) (/ 7 3)))'))
+# p lisp_eval(parse('(if (> 7 8) (+ 3 11) (/ 7 3))'))
