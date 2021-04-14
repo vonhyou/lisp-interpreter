@@ -72,8 +72,9 @@ def generate_env
     'max': ->(*args) { args.max },
     'car': ->(arr) { arr[0] },
     'cdr': ->(arr) { arr[1..-1] },
+    'cons': ->(arr) { arr },
     'print': ->(arg) { p arg },
-    'begin': ->(*args) { true }
+    'begin': ->(*_args) { true }
   }
 end
 
@@ -87,7 +88,8 @@ end
 
 ##### Lisp Eval
 
-def lisp_eval(elem, env = generate_env)
+$global_env = generate_env
+def lisp_eval(elem, env = $global_env)
   if elem.instance_of?(Symbol)
     env[elem]
   elsif elem.instance_of?(Integer) || elem.instance_of?(Float)
@@ -109,4 +111,22 @@ end
 
 
 # p lisp_eval(parse '(/ (+ 1 (* 2 3) 1 1 (+ 1 (- 7 2) 1)) 4)')
-lisp_eval(parse '(begin (def var1 7) (print (if (> var1 1) (+ 1 30) (- 10 2))))')
+# lisp_eval(parse '(begin (def var1 7) (print (if (> var1 1) (+ 1 30) (- 10 2))))')
+
+##### REPL
+
+def repl(prompt='minlisp>> ')
+  loop do
+    print prompt
+    val = lisp_eval(parse(gets.chomp))
+
+    print_value val unless val.nil?
+  end
+end
+
+def print_value(value)
+  puts value.to_s
+end
+
+repl()
+# lisp_eval(parse('(begin (def var1 7) (if (> var1 8) (+ 3 11) (/ 7 3)))'))
