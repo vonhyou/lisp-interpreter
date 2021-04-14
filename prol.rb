@@ -20,15 +20,20 @@ module Lisp
     program.gsub('(', ' ( ').gsub(')', ' ) ').split
   end
 
+  def self.make_list(tokens)
+    lst = []
+    lst << read_tokens(tokens) while tokens[0] != ')'
+    tokens.shift
+    lst
+  end
+
   def self.read_tokens(tokens, lst = [])
     # read expressions from token
     raise SyntaxError, 'Unexpected EOF' if tokens.empty?
 
     case token = tokens.shift
     when '('
-      lst << read_tokens(tokens) while tokens[0] != ')'
-      tokens.shift
-      lst
+      make_list tokens
     when ')'
       raise SyntaxError, "Unexpected ')'"
     else
@@ -55,16 +60,15 @@ module Lisp
         scope.merge op => ->(*args) { args.inject(&op) }
       end
     end
-    mtds = { 'min': ->(arr) { arr.min },
-             'max': ->(arr) { arr.max },
-             'car': ->(arr) { arr[0] },
-             'cdr': ->(arr) { arr[1..-1] },
-             'cons': ->(arr) { arr },
-             'quote': ->(*args) { args },
-             'print': ->(arg) { p arg },
-             'begin': ->(*_args) { true }
-    }
-    @global_env.merge mtds
+    lisp_methods = { 'min': ->(arr) { arr.min },
+                     'max': ->(arr) { arr.max },
+                     'car': ->(arr) { arr[0] },
+                     'cdr': ->(arr) { arr[1..-1] },
+                     'cons': ->(arr) { arr },
+                     'quote': ->(*args) { args },
+                     'print': ->(arg) { p arg },
+                     'begin': ->(*_args) { true }}
+    @global_env.merge lisp_methods
   end
 
   ##### Lisp Eval
