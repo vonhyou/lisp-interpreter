@@ -44,16 +44,15 @@ end
 
 def atom(token)
   # Analyse numbers and symbols
-  isInteger = ->(atom) { atom.match?(/^-?\d+$/) }
-  isFloat   = ->(atom) { atom.match?(/^(-?\d+)(\.\d+)?$/) }
-  return Integer token if isInteger.call token
-  return Float   token if isFloat.call   token
+  is_integer = ->(atom) { atom.match?(/^-?\d+$/) }
+  is_float   = ->(atom) { atom.match?(/^(-?\d+)(\.\d+)?$/) }
+  return Integer token if is_integer.call token
+  return Float   token if is_float.call   token
 
   token.to_sym
 end
 
 # p parse '(def 1 2 (c 3.3 (r f r) e))'
-
 
 ##### Environments
 
