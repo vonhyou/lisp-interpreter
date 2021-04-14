@@ -125,7 +125,7 @@ def repl(prompt='minlisp>> ')
 end
 
 def print_value(value)
-  puts value.to_s
+  puts ";Value: #{value.to_s}"
 end
 
 repl()
