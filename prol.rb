@@ -4,7 +4,7 @@
 
 ##### Parser
 
-module Lisp
+module Prolisp
 
   def self.parse(program)
     read_tokens(tokenize(program))
@@ -57,10 +57,12 @@ module Lisp
     end
 
     @global_env.merge! quote: ->(*args) { args.to_a }
-    @global_env.merge! cons: ->(*args) { args.to_a }
-    @global_env.merge! car: ->(arr) { arr[0] }
-    @global_env.merge! cdr: ->(arr) { arr[1..-1] }
-    @global_env.merge! print: ->(arg) { p arg }
+    @global_env.merge! cons:  ->(*args) { args.to_a }
+    @global_env.merge! car:   ->(arr)   { arr[0] }
+    @global_env.merge! cdr:   ->(arr)   { arr[1..-1] }
+    @global_env.merge! print: ->(arg)   { p arg }
+    @global_env.merge! min:   ->(arr)   { arr.min }
+    @global_env.merge! max:   ->(arr)   { arr.max }
     @global_env
   end
 
@@ -115,4 +117,4 @@ https://github.com/vonhyou/lisp-interpreter\n\n"
   end
 end
 
-Lisp.repl
+Prolisp.repl
