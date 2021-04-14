@@ -1,10 +1,18 @@
 ## Yet another lisp interpreter
 
+**PRO**cessor of **L**ist for Mathematical Calculation
+
 It's a simple minimal lisp interpreter written by ruby.
 
+![](./screenshot/demo.png)
 
+### Feature
 
-### usage
+- Basic functions as a minimal lisp
+- **No** support for `String`
 
-- uncomment repl() in `minlisp.rb`
-- run it
+### Usage
+
+```bash
+$ ruby ./prol.rb
+```
