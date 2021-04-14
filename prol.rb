@@ -102,6 +102,7 @@ def lisp_eval(elem, env = $global_env)
 end
 
 $copyleft = "Copyleft (Ↄ) 2021 vonhyou@lenva.tech
+(PRO)cessor of (L)ist for Mathmatical Calculation
 This is an open source software, you can view it's source code on github:
 https://github.com/vonhyou/lisp-interpreter\n\n"
 

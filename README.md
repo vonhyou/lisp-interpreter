@@ -2,7 +2,7 @@
 
 It's a simple minimal lisp interpreter written by ruby.
 
-Still INCOMPLETE.
+
 
 ### usage
 
