@@ -101,8 +101,13 @@ def lisp_eval(elem, env = $global_env)
   end
 end
 
+$copyleft = "Copyleft (Ↄ) 2021 vonhyou@lenva.tech
+This is an open source software, you can view it's source code on github:
+https://github.com/vonhyou/lisp-interpreter\n\n"
+
 ##### REPL
-def repl(prompt = 'minlisp ƛ>> ')
+def repl(prompt = 'prol ƛ>> ')
+  puts $copyleft
   loop do
     print prompt
     val = lisp_eval(parse(gets.chomp))
