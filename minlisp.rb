@@ -15,9 +15,7 @@ end
 
 def tokenize(program)
   # Convert scripts to token lists
-  replacements = { '(' => ' ( ', ')' => ' ) ' }
-  program.gsub(Regexp.union(replacements.keys), replacements)
-         .split(' ')
+  program.gsub('(', ' ( ').gsub(')', ' ) ').split
 end
 
 def make_list(tokens)
@@ -31,8 +29,7 @@ def read_tokens(tokens)
   # read expressions from token
   raise SyntaxError, 'Unexpected EOF' if tokens.empty?
 
-  token = tokens.shift
-  case token
+  case token = tokens.shift
   when '('
     make_list tokens
   when ')'
@@ -44,41 +41,37 @@ end
 
 def atom(token)
   # Analyse numbers and symbols
-  is_integer = ->(atom) { atom.match?(/^-?\d+$/) }
-  is_float   = ->(atom) { atom.match?(/^(-?\d+)(\.\d+)?$/) }
-  return Integer token if is_integer.call token
-  return Float   token if is_float.call   token
-
-  token.to_sym
+  case token
+  when /\d/
+    (token.to_f % 1).positive? ? token.to_f : token.to_i
+  else
+    token.to_sym
+  end
 end
 
 ##### Environments
 
-def generate_env
-  lisp_env = {
-    '+': ->(args) { args.sum }, # args.inject(0, :+)
-    '-': ->(*args) { eval args.join('-') },
-    '*': ->(*args) { eval args.join('*') },
-    '/': ->(*args) { eval args.join('/') },
-    '>': ->(args) { args[0] > args[1] },
-    '<': ->(args) { args[0] < args[1] },
-    '=': ->(args) { args[0] == args[1] },
-    '>=': ->(args) { args[0] >= args[1] },
-    '<=': ->(args) { args[0] <= args[1] },
-    'min': ->(*args) { args.min },
-    'max': ->(*args) { args.max },
-    'car': ->(arr) { arr[0] },
-    'cdr': ->(arr) { arr[1..-1] },
-    'cons': ->(arr) { arr },
-    'quote': ->(arr) { arr },
-    'print': ->(arg) { p arg },
-    'begin': ->(*_args) { true }
-  }
-end
+$global_env = {
+  '+': ->(args) { args.sum }, # args.inject(0, :+)
+  '-': ->(*args) { eval args.join('-') },
+  '*': ->(*args) { eval args.join('*') },
+  '/': ->(*args) { eval args.join('/') },
+  '>': ->(args) { args[0] > args[1] },
+  '<': ->(args) { args[0] < args[1] },
+  '=': ->(args) { args[0] == args[1] },
+  '>=': ->(args) { args[0] >= args[1] },
+  '<=': ->(args) { args[0] <= args[1] },
+  'min': ->(*args) { args.min },
+  'max': ->(*args) { args.max },
+  'car': ->(arr) { arr[0] },
+  'cdr': ->(arr) { arr[1..-1] },
+  'cons': ->(arr) { arr },
+  'quote': ->(arr) { arr },
+  'print': ->(arg) { p arg },
+  'begin': ->(*_args) { true }
+}
 
 ##### Lisp Eval
-
-$global_env = generate_env
 def lisp_eval(elem, env = $global_env)
   if elem.instance_of? Symbol
     env[elem]
@@ -103,18 +96,17 @@ def lisp_eval(elem, env = $global_env)
 end
 
 ##### REPL
-
-def repl(prompt='minlisp ƛ>> ')
+def repl(prompt = 'minlisp ƛ>> ')
   loop do
     print prompt
     val = lisp_eval(parse(gets.chomp))
 
-    print_value val unless val.nil?
+    print_value val unless val.nil? || val.instance_of?(Proc)
   end
 end
 
 def print_value(value)
-  puts ";Value: #{value.to_s}"
+  puts ";Value: #{value}"
 end
 
-repl()
+repl
