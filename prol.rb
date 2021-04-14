@@ -3,11 +3,6 @@
 # Start at: Apr. 10, 2021
 
 ##### Parser
-# :parse
-# :tokenize
-# :read_tokens
-# :atom
-#####
 
 module Lisp
 
@@ -60,17 +55,6 @@ module Lisp
         scope.merge op => ->(*args) { args.inject(&op) }
       end
     end
-
-    # @global_env.merge {
-    #   'min' : ->(*args) { args.min },
-    #     'max' : ->(*args) { args.max },
-    #     'car' : ->(arr) { arr[0] },
-    #     'cdr' : ->(arr) { arr[1..-1] },
-    #     'cons' : ->(arr) { arr },
-    #     'quote' : ->(arr) { arr },
-    #     'print' : ->(arg) { p arg },
-    #     'begin' : ->(*_args) { true }
-    # }
   end
 
   ##### Lisp Eval
