@@ -51,10 +51,17 @@ module Lisp
   def self.make_global
     @global_env ||= begin
       ops = %i[== != < <= > >= + - * / % & | ^ ～]
-      ops.inject({}) do |scope, op|
-        scope.merge op => ->(*args) { args.inject(&op) }
+      ops.inject({}) do |sp, op|
+        sp.merge op => ->(*args) { args.inject(&op) }
       end
     end
+
+    @global_env.merge! quote: ->(*args) { args.to_a }
+    @global_env.merge! cons: ->(*args) { args.to_a }
+    @global_env.merge! car: ->(arr) { arr[0] }
+    @global_env.merge! cdr: ->(arr) { arr[1..-1] }
+    @global_env.merge! print: ->(arg) { p arg }
+    @global_env
   end
 
   ##### Lisp Eval
