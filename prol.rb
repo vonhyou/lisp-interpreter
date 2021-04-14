@@ -55,6 +55,7 @@ module Lisp
         scope.merge op => ->(*args) { args.inject(&op) }
       end
     end
+
     # @global_env.merge {
     #   'min' : ->(*args) { args.min },
     #     'max' : ->(*args) { args.max },
@@ -91,7 +92,7 @@ module Lisp
       !lisp_eval(elem[1], env)
     else
       func, *args = elem.map { |e| lisp_eval e, env }
-      func.call *args
+      func.call(*args)
     end
   end
 
