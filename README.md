@@ -4,7 +4,7 @@
 
 It's a simple minimal lisp interpreter written in ruby.
 
-![](./screenshot/demo.svg)
+![](./screenshot/demo.png)
 
 ### Feature
 
@@ -16,3 +16,7 @@ It's a simple minimal lisp interpreter written in ruby.
 ```bash
 $ ruby ./prol.rb
 ```
+
+### Acknowledgement
+
+[Tesla I. Zhang](https://github.com/ice1000), for pointing out errors and patient guidance
