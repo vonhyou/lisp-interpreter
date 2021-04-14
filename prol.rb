@@ -27,7 +27,7 @@ module Lisp
     lst
   end
 
-  def self.read_tokens(tokens, lst = [])
+  def self.read_tokens(tokens)
     # read expressions from token
     raise SyntaxError, 'Unexpected EOF' if tokens.empty?
 
