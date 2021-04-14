@@ -91,6 +91,9 @@ def lisp_eval(elem, env = $global_env)
     _, cod, if_true, if_false = elem
     exp = lisp_eval(cod, env) ? if_true : if_false
     lisp_eval exp, env
+  elsif elem[0] == :lambda
+    _, params, body = elem
+    ->(*args) { lisp_eval body, env.merge(Hash[params.zip(args)]) }
   else
     args = []
     elem[1..-1].each { |arg| args << lisp_eval(arg, env) }
@@ -114,4 +117,4 @@ def print_value(value)
   puts ";Value: #{value.to_s}"
 end
 
-# repl()
+repl()
