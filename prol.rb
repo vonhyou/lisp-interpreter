@@ -103,7 +103,7 @@ end
 
 $copyleft = "Copyleft (Ↄ) 2021 vonhyou@lenva.tech
 (PRO)cessor of (L)ist for Mathematical Calculation
-This is an open source software, you can view it's source code on github:
+This is an open source software, you can view its source code on github:
 https://github.com/vonhyou/lisp-interpreter\n\n"
 
 ##### REPL
